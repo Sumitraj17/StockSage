@@ -1,0 +1,29 @@
+.logos {
+  background-color: #080a45; /* Dark blue background */
+  padding: 20px;
+  overflow: hidden; /* Ensures content stays within bounds */
+  position: relative; /* Enables absolute positioning for child elements */
+  width: 100%; /* Ensure it takes full width */
+}
+
+.logos-slide {
+  display: flex;
+  animation: scroll 40s linear infinite; /* Set animation duration */
+}
+
+.logos-slide img {
+  width: 150px; /* Image size */
+  height: auto;
+  margin-right: 20px; /* Spacing between images */
+  border-radius: 8px; /* Optional: round corners */
+  transition: transform 0.5s ease, opacity 0.5s ease; /* Smooth transition */
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0); /* Start at normal position */
+  }
+  100% {
+    transform: translateX(-100%); /* Move completely off screen */
+  }
+}
