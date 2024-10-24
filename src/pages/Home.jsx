@@ -1,13 +1,19 @@
-// import logo from "../assets/logo.png";
+import React, { useRef } from "react"; // Import useRef
 import { Link, useNavigate } from "react-router-dom";
 import { RiLoginCircleLine } from "react-icons/ri";
 import SlideShow from "../components/SlideShow";
 
 function Home() {
   const navigate = useNavigate();
+  const infoSectionRef = useRef(null); // Create a ref for the information section
 
   const handleClick = (to) => {
-    navigate(to);
+    if (to === "/about") {
+      // Scroll to the information section if "About" is clicked
+      infoSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      navigate(to);
+    }
   };
 
   return (
@@ -19,7 +25,7 @@ function Home() {
           {/* <img src={logo} alt="Logo" className="w-12 h-12" /> */}
           <Link
             to="/"
-            className="text-2xl font-normal hover:text-[#51487e] transition-colors duration-300"
+            className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] hover:from-[#4ade80] hover:via-[#60a5fa] hover:to-[#a855f7] transition-all duration-500 ease-in-out transform hover:scale-105 tracking-wide custom-text-stroke"
           >
             StockSage
           </Link>
@@ -28,19 +34,19 @@ function Home() {
         {/* Navigation Buttons */}
         <div className="flex items-center gap-4 text-xs sm:text-sm">
           <button
-            className="p-2 px-3 bg-gradient-to-r bg-[#c59dce] to-[#af6cc5] rounded-lg hover:shadow-lg transition-all duration-500 ease-in-out text-white"
+            className="p-2 px-3 bg-gradient-to-r from-[#c59dce] to-[#af6cc5] rounded-lg transition-all duration-300 ease-in-out text-white shadow-md hover:shadow-xl transform hover:scale-105 hover:opacity-90"
             onClick={() => handleClick("/about")}
           >
             About
           </button>
           <button
-            className="p-2 px-3 bg-gradient-to-r bg-[#c59dce] to-[#af6cc5] rounded-lg hover:shadow-lg transition-all duration-500 ease-in-out text-white"
+            className="p-2 px-3 bg-gradient-to-r from-[#c59dce] to-[#af6cc5] rounded-lg transition-all duration-300 ease-in-out text-white shadow-md hover:shadow-xl transform hover:scale-105 hover:opacity-90"
             onClick={() => handleClick("/login")}
           >
             Log In
           </button>
           <button
-            className="p-2 px-3 bg-gradient-to-r bg-[#c59dce] to-[#af6cc5] rounded-lg hover:shadow-lg transition-all duration-500 ease-in-out text-white"
+            className="p-2 px-3 bg-gradient-to-r from-[#c59dce] to-[#af6cc5] rounded-lg transition-all duration-300 ease-in-out text-white shadow-md hover:shadow-xl transform hover:scale-105 hover:opacity-90"
             onClick={() => handleClick("/register")}
           >
             Register
@@ -77,7 +83,9 @@ function Home() {
       </div>
 
       {/* Information Section */}
-      <div className="w-full py-20">
+      <div className="w-full py-20" ref={infoSectionRef}>
+        {" "}
+        {/* Attach the ref here */}
         <div className="flex flex-wrap justify-between items-center text-white p-5">
           {/* Image Section */}
           <div className="w-full sm:w-1/2 lg:w-1/2 p-4">

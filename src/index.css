@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.custom-text-stroke {
+    -webkit-text-stroke: 0.5px white; /* Reduced stroke thickness */
+    text-stroke: 0.5px white;         /* Reduced stroke thickness */
+  }
+  
