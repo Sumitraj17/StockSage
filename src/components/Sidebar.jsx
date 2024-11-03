@@ -15,7 +15,7 @@ function Sidebar() {
       {content.map((item, index) => (
         <div key={index} className="w-full">
           <button
-            className="text-white text-center hover:bg-[#2a2d80] p-2 m-5 w-full text-left"
+            className="text-white text-center hover:bg-[#2a2d80] p-2 m-5 w-full"
             onClick={() => handleClick(item)}
           >
             {item}
