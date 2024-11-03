@@ -6,3 +6,11 @@
     text-stroke: 0.5px white;         /* Reduced stroke thickness */
   }
   
+  /* Hide scrollbars */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
