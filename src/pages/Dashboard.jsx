@@ -1,9 +1,11 @@
-const Dashboard = ()=>{
-    return(
-        <>
-            <div>DashBoard</div>
-        </>
-    )
+
+
+function Dashboard() {
+  return (
+    <div className=" flex justify-center items-center">
+      dashboard
+    </div>
+  );
 }
 
-export default Dashboard
+export default Dashboard;
