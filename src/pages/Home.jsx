@@ -148,7 +148,7 @@ function Home() {
 
             {/* Button Section */}
             <div className="w-full md:w-auto mt-6 md:mt-0">
-              <button className="bg-[#c59dce] text-[#51487e] font-semibold py-3 px-8 rounded-lg transition-all duration-500 ease-in-out hover:bg-[#51487e] hover:text-white">
+              <button className="bg-[#c59dce] text-[#51487e] font-semibold py-3 px-8 rounded-lg transition-all duration-500 ease-in-out hover:bg-[#51487e] hover:text-white" onClick={() => handleClick("/register")}>
                 Get Started
               </button>
             </div>
