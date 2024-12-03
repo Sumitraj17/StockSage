@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
 function Sidebar() {
-  const content = ["Dashboard", "Employee", "Product", "Group", "Sales", "Forecasting"];
+  const content = ["Dashboard", "Employee", "Product",  "Forecasting"];
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -20,7 +20,7 @@ function Sidebar() {
         <div key={index} className="w-full justify-center items-center">
           <div
             className={`text-white text-center p-2 m-2 w-full ${
-              location.pathname.includes(item.toLowerCase())
+              location.pathname.includes("/dashboard/"+item.toLowerCase())
                 ? "bg-[#2a2d80]"
                 : "hover:bg-[#2a2d80]"
             }`}
