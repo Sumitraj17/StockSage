@@ -5,7 +5,7 @@ function Navbar() {
   return (
     <div className="w-full bg-[#080a45] flex justify-between items-center">
       <div className="Inventory p-5 mx-8 text-white">
-        <h1 className="font-serif text-2xl">StockSage</h1>
+
       </div>
 
       <div className="flex mx-8 items-center justify-center">

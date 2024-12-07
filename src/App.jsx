@@ -6,9 +6,10 @@ import DashboardLayout from "./components/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import { Toaster } from 'react-hot-toast';
 import Product from "./pages/Products.jsx";
-import Sales from "./pages/Sales.jsx";
+
 import Employee from "./pages/Employee.jsx";
-import Group from "./pages/Group.jsx";
+import Forecasting from "./pages/Forecasting";
+
 
 function App() {
   return (
@@ -23,9 +24,11 @@ function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="product" element={<Product/>} />
-          <Route path="sales" element={<Sales/>} />
-          <Route path="group" element={<Group/>} />
+        
+        
           <Route path="employee" element={<Employee/>} />
+          <Route path="forecasting" element={<Forecasting/>} />
+
         </Route>
         
       </Routes>
