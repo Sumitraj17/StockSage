@@ -8,7 +8,8 @@ import { Toaster } from 'react-hot-toast';
 import Product from "./pages/Products.jsx";
 
 import Employee from "./pages/Employee.jsx";
-import Forecasting from "./pages/Forecasting";
+import Forecasting from "./components/Forecasting";
+import ForecastingPage from "./pages/forecastingPage";
 
 
 function App() {
@@ -27,8 +28,8 @@ function App() {
         
         
           <Route path="employee" element={<Employee/>} />
-          <Route path="forecasting" element={<Forecasting/>} />
-
+          <Route path="forecasting" element={<ForecastingPage/>} />
+          <Route path="forecastpage" element={<Forecasting/>} />
         </Route>
         
       </Routes>
