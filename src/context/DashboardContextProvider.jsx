@@ -12,12 +12,12 @@ function DashboardContextProvider({ children }) {
   const getDashboardData = async () => {
     try {
       // Example: Fetch data from a backend API
-      const mergedResponse = await axios.get("http://localhost:3000/api/merged");
-      const historyResponse = await axios.get("http://localhost:3000/api/history");
-
+      const mergedResponse = await axios.get("http://localhost:3000/api/v1/sales/getDetails",{withCredentials:true});
+      // const historyResponse = await axios.get("http://localhost:3000/api/history");
+      // console.log(mergedResponse.data.result)
       // Set fetched data to state
-      setMerged(mergedResponse.data || Merged); // Fallback to local data
-      setHistory(historyResponse.data || History); // Fallback to local data
+      setMerged(mergedResponse.data.result || Merged); // Fallback to local data
+      setHistory(mergedResponse.data.result || History); // Fallback to local data
     } catch (error) {
       console.error("Failed to fetch dashboard data:", error);
 

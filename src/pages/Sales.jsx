@@ -149,6 +149,7 @@ const Sales = () => {
               <th style={tableHeaderStyle}>Product Name</th>
               <th style={tableHeaderStyle}>Customer Name</th>
               <th style={tableHeaderStyle}>Units Sold</th>
+              <th style={tableHeaderStyle}>Sales</th>
               <th style={tableHeaderStyle}>Date</th>
             </tr>
           </thead>
@@ -161,6 +162,7 @@ const Sales = () => {
                 <td style={tableCellStyle}>{sale.productName}</td>
                 <td style={tableCellStyle}>{sale.customerId}</td>
                 <td style={tableCellStyle}>{sale.unitsSold}</td>
+                <td style={tableCellStyle}>{sale.sales}</td>
                 <td style={tableCellStyle}>{sale.date}</td>
               </tr>
             ))}

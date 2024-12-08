@@ -14,13 +14,18 @@ import DashboardContext from "@/context/DashboardContext";
 export function HistoryChart() {
   const { history } = useContext(DashboardContext); // Fetch history data from context
 
-  // Process data to show top 3 products by "Total Stock"
+  // Process data to show top 5 products by percentage of units sold
   const formattedData = useMemo(() => {
     if (!history || history.length === 0) return [];
 
-    // Sort products by "Total Stock" in descending order and pick the top 3
+    // Sort products by the percentage of units sold (unitsSold / totalStock) in descending order and pick the top 5
     const topProducts = [...history]
-      .sort((a, b) => b["Total Stock"] - a["Total Stock"])
+      .map((product) => ({
+        ...product,
+        percentageSold:
+          product["Total Stock"] > 0 ? (product["Unit Sold"] / product["Total Stock"]) * 100 : 0,
+      }))
+      .sort((a, b) => b.percentageSold - a.percentageSold)
       .slice(0, 5);
 
     // Transform data to fit the chart format
@@ -28,7 +33,8 @@ export function HistoryChart() {
       month: product.Month,
       name: product["Product Name"],
       stock: product["Total Stock"] || 0,
-      sold: product["Units Sold"] || 0,
+      sold: product["Unit Sold"] || 0,
+      percentageSold: product.percentageSold || 0,
     }));
   }, [history]);
 
@@ -41,7 +47,7 @@ export function HistoryChart() {
     <Card>
       <CardHeader>
         <CardTitle>Top 5 Products - Monthly Overview</CardTitle>
-        <CardDescription>Stock and Sales for Top Products</CardDescription>
+        <CardDescription>Stock and Sales for Top Products by Percentage Sold</CardDescription>
       </CardHeader>
       <CardContent>
         <BarChart
@@ -63,6 +69,7 @@ export function HistoryChart() {
           <Legend />
           <Bar dataKey="stock" name="Total Stock" fill="#3182CE" />
           <Bar dataKey="sold" name="Units Sold" fill="#E53E3E" />
+          <Bar dataKey="percentageSold" name="Percentage Sold" fill="#48BB78" /> {/* New bar for percentage sold */}
         </BarChart>
       </CardContent>
     </Card>

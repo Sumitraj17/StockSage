@@ -28,7 +28,7 @@ export function BarChart() {
         .slice(0, 5) // Limit to the top 5 items
         .map(item => ({
           month: item["Product Name"],
-          totalSales: item["Total Sales"],
+          totalStock: item["Total Stock"],
           unitsSold: item["Unit Sold"],
         }));
       setChartData(data);
@@ -54,7 +54,7 @@ export function BarChart() {
             <YAxis />
             <Legend />
             <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dashed" />} />
-            <Bar dataKey="totalSales" fill={chartConfig.sales.color} radius={[4, 4, 0, 0]} />
+            <Bar dataKey="totalStock" fill={chartConfig.sales.color} radius={[4, 4, 0, 0]} />
             <Bar dataKey="unitsSold" fill={chartConfig.unitsSold.color} radius={[4, 4, 0, 0]} />
           </RechartsBarChart>
         </ChartContainer>
@@ -64,7 +64,7 @@ export function BarChart() {
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total sales and units sold for the top 5 products.
+          Showing total stock and units sold for the top 5 products.
         </div>
       </CardFooter>
     </Card>

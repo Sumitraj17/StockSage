@@ -42,7 +42,7 @@ function Login() {
         withCredentials:true
       });
       toast.success(resp.data.message);
-      setTimeout(() => navigate("/dashboard"), 2000);
+      setTimeout(() => navigate("/dashboard", { state: { role: resp.data.admin } }), 2000);
     } catch (error) {
       toast.error(error?.response.data.message || "An error occurred");
     }
