@@ -1,21 +1,108 @@
 import { useNavigate } from "react-router-dom";
 import { FaUpload, FaArrowRight } from "react-icons/fa";
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 function Forecasting() {
   const navigate = useNavigate();
+  const [file, setFile] = useState(null); // To store the uploaded file
+  const [isLoading, setIsLoading] = useState(false); // To track loading state
+  const [isDisabled, setIsDisabled] = useState(false); // To disable buttons during prediction
 
-  const handleOldDataClick = () => {
-    navigate("/forecastpage");
+  const handleOldDataClick = async () => {
+    try {
+      // Start loading
+      setIsLoading(true);
+      setIsDisabled(true);
+
+      // Show loading toast
+      toast.loading("Processing your file...", { id: "file-processing" });
+
+      // If the user selects to use old data, make an Axios request to the backend
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/sales/forecasting",
+        {}, // No file data, just use old data
+        {
+          withCredentials: true, // Include credentials with the request
+          responseType: "blob", // Expect the response to be a PDF file
+        }
+      );
+
+      // Handle the download of the report as a PDF
+      const url = window.URL.createObjectURL(new Blob([response.data]), { type: 'application/pdf' });
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "forecasting_report.pdf"); // Set the file name for the download
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link); // Clean up the DOM
+
+      // Show success toast
+      toast.success("Report generated successfully!");
+    } catch (error) {
+      console.error("Error fetching old data:", error);
+      toast.error("An error occurred while fetching the forecasting data.");
+    } finally {
+      setIsLoading(false); // End loading
+      setIsDisabled(false); // Enable buttons again
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle file upload logic here if needed
-    navigate("/forecastpage");
+
+    if (!file) {
+      alert("Please upload a file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      // Start loading
+      setIsLoading(true);
+      setIsDisabled(true);
+
+      // Show loading toast
+      toast.loading("Processing your file...", { id: "file-processing" });
+
+      // Send the file to the backend
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/sales/forecasting",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true, // Add credentials to the request
+          responseType: "blob", // Expect the response to be a PDF file
+        }
+      );
+
+      // Handle the download of the report as a PDF
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "forecasting_report.pdf"); // Set the file name for the download
+      document.body.appendChild(link);
+      link.click(); // Trigger the download
+      document.body.removeChild(link); // Clean up the DOM
+
+      // Show success toast
+      toast.success("Report generated successfully!", { id: "file-processing" });
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      toast.error("An error occurred while processing the forecasting data.");
+    } finally {
+      setIsLoading(false); // End loading
+      setIsDisabled(false); // Enable buttons again
+    }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen  bg-gradient-to-r from-blue-50 via-white to-blue-50">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 via-white to-blue-50">
       {/* Heading Section */}
       <h1 className="text-4xl font-bold text-gray-800 text-center mb-8">
         Forecasting Data
@@ -26,6 +113,7 @@ function Forecasting() {
         <button
           className="bg-green-600 text-white px-8 py-3 rounded-full text-lg hover:bg-green-700 transition-all shadow-md flex items-center gap-2"
           onClick={handleOldDataClick}
+          disabled={isDisabled} // Disable button during prediction
         >
           <FaArrowRight className="text-white" />
           Use Old Data
@@ -52,19 +140,18 @@ function Forecasting() {
             type="file"
             name="file"
             className="hidden"
+            onChange={(e) => setFile(e.target.files[0])} // Store the uploaded file in state
           />
         </label>
         <button
           type="submit"
           className="bg-blue-600 text-white px-8 py-3 rounded-full text-lg hover:bg-blue-700 transition-all shadow-md flex items-center gap-2"
+          disabled={isDisabled} // Disable button during prediction
         >
           <FaArrowRight className="text-white" />
           Submit
         </button>
       </form>
-
-     
-      
     </div>
   );
 }

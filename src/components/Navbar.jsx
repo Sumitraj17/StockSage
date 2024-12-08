@@ -1,9 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { CgProfile } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -14,6 +18,15 @@ function Navbar() {
       setIsDropdownOpen(false);
     }
   };
+  const handleLogout = async()=>{
+    try {
+      const resp = await axios.get("http://localhost:3000/admin/logout",{withCredentials:true})
+      toast.success(resp.data.message)
+      navigate('/')
+    } catch (error) {
+      
+    }
+  }
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -46,9 +59,9 @@ function Navbar() {
               <p className="text-sm text-gray-600">johndoe@example.com</p>
             </div>
             <ul className="text-black">
-              <li className="hover:bg-gray-100 px-4 py-2 cursor-pointer text-red-600">
+              <button onClick={handleLogout} className="hover:bg-gray-100 px-4 py-2 cursor-pointer text-red-600">
                 Logout
-              </li>
+              </button>
             </ul>
           </div>
         )}
