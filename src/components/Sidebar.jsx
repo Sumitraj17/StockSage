@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 
 function Sidebar() {
-  const content = ["Dashboard", "Employee", "Product",  "Forecasting"];
+  const content = ["Dashboard", "Employee", "Product",  "Forecasting","Sales"];
   const navigate = useNavigate();
   const location = useLocation();
 

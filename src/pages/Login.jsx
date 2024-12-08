@@ -38,6 +38,8 @@ function Login() {
         userName: formData.userName,
         Email: formData.email,
         Password: formData.password,
+      },{
+        withCredentials:true
       });
       toast.success(resp.data.message);
       setTimeout(() => navigate("/dashboard"), 2000);

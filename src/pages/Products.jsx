@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import toast from "react-hot-toast";
 const Product = () => {
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({
@@ -9,6 +9,7 @@ const Product = () => {
     totalStock: "",
     pricePerUnit: "",
   });
+  const [trigger,setTrigger] = useState(false);
   const [isAddProductPage, setIsAddProductPage] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
 
@@ -16,7 +17,9 @@ const Product = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/product/getAllProducts"
+        "http://localhost:3000/api/v1/product/getAllProducts",{
+          withCredentials:true
+        }
       );
       setProducts(response.data.products || []);
     } catch (err) {
@@ -30,9 +33,11 @@ const Product = () => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/v1/product/createProduct",
-        newProduct
+        newProduct,{
+          withCredentials:true
+        }
       );
-      alert(response.data.message);
+      toast.success(response.data.message);
       setNewProduct({
         productId: "",
         productName: "",
@@ -40,9 +45,11 @@ const Product = () => {
         pricePerUnit: "",
       });
       setIsAddProductPage(false);
+      setTrigger(!trigger)
       fetchProducts();
     } catch (error) {
       console.error("Error adding product:", error);
+      toast.error(error.response?.data.message)
     }
   };
 
@@ -52,14 +59,18 @@ const Product = () => {
     try {
       const response = await axios.put(
         `http://localhost:3000/api/v1/product/updateProduct/${editingProduct.productId}`,
-        editingProduct
+        editingProduct,{
+          withCredentials:true
+        }
       );
-      alert(response.data.message);
+      toast.success(response.data.message);
       setEditingProduct(null);
       setIsAddProductPage(false);
+      setTrigger(!trigger)
       fetchProducts();
     } catch (error) {
       console.error("Error updating product:", error);
+      toast.error(error.response?.data.message)
     }
   };
 
@@ -67,18 +78,23 @@ const Product = () => {
   const handleDeleteProduct = async (productId) => {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/api/v1/product/deleteProduct/${productId}`
+        `http://localhost:3000/api/v1/product/deleteProduct/${productId}`,{
+          withCredentials:true
+        }
       );
-      alert(response.data.message);
+      setTrigger(!trigger)
+      toast.success(response.data.message);
+      
       fetchProducts();
     } catch (error) {
       console.error("Error deleting product:", error);
+      toast.error(error.response?.data.message)
     }
   };
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [trigger]);
 
   return (
     <div
