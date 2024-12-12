@@ -35,7 +35,7 @@ const Sales = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/sales/create-sale",
+        "http://localhost:3000/api/v1/sales/create-csv-sales",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -144,26 +144,22 @@ const Sales = () => {
           <thead style={{ backgroundColor: "#007BFF", color: "#fff" }}>
             <tr>
               <th style={tableHeaderStyle}>S.No</th>
-              <th style={tableHeaderStyle}>Store ID</th>
               <th style={tableHeaderStyle}>Product ID</th>
               <th style={tableHeaderStyle}>Product Name</th>
-              <th style={tableHeaderStyle}>Customer Name</th>
               <th style={tableHeaderStyle}>Units Sold</th>
               <th style={tableHeaderStyle}>Sales</th>
-              <th style={tableHeaderStyle}>Date</th>
+              <th style={tableHeaderStyle}>Month</th>
             </tr>
           </thead>
           <tbody>
             {currentSalesData.map((sale, index) => (
               <tr key={index}>
                 <td style={tableCellStyle}>{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                <td style={tableCellStyle}>{sale.storeId}</td>
                 <td style={tableCellStyle}>{sale.productId}</td>
                 <td style={tableCellStyle}>{sale.productName}</td>
-                <td style={tableCellStyle}>{sale.customerId}</td>
                 <td style={tableCellStyle}>{sale.unitsSold}</td>
                 <td style={tableCellStyle}>{sale.sales}</td>
-                <td style={tableCellStyle}>{sale.date}</td>
+                <td style={tableCellStyle}>{sale.month}</td>
               </tr>
             ))}
           </tbody>

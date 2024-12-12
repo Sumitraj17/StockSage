@@ -37,11 +37,15 @@ function Forecasting() {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link); // Clean up the DOM
-
+      setIsLoading(false); // End loading
+      setIsDisabled(false);
+      toast.dismiss("file-processing")
       // Show success toast
       toast.success("Report generated successfully!");
+      
     } catch (error) {
       console.error("Error fetching old data:", error);
+      toast.dismiss("file-processing")
       toast.error("An error occurred while fetching the forecasting data.");
     } finally {
       setIsLoading(false); // End loading
@@ -89,11 +93,14 @@ function Forecasting() {
       document.body.appendChild(link);
       link.click(); // Trigger the download
       document.body.removeChild(link); // Clean up the DOM
-
+      setIsLoading(false); // End loading
+      setIsDisabled(false);
+      toast.dismiss("file-processing")
       // Show success toast
       toast.success("Report generated successfully!", { id: "file-processing" });
     } catch (error) {
       console.error("Error uploading file:", error);
+      toast.dismiss("file-processing")
       toast.error("An error occurred while processing the forecasting data.");
     } finally {
       setIsLoading(false); // End loading
