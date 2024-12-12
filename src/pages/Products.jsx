@@ -11,10 +11,36 @@ const Product = () => {
     totalStock: "",
     pricePerUnit: "",
   });
+  // State to hold the selected filter value
+  const [selectedFilter, setSelectedFilter] = useState("");
+
+  // Change handler for the select input
+  const handleFilterChange = async (event) => {
+    setSelectedFilter(event.target.value);
+    // Optionally, you can perform additional actions based on the selection.
+    // console.log("Selected Filter:", event.target.value);
+    if (event.target.value != "") {
+      try {
+        const resp = await axios.post(
+          "http://localhost:3000/api/v1/product/fetchStoreStock",
+          { location: event.target.value },
+          { withCredentials: true }
+        );
+        const products = resp.data.products;
+        setProducts(products)
+        toast.success(resp.data.message);
+      } catch (error) {
+        toast.error(error?.response.data.message);
+      }
+    }
+    else fetchProducts();
+  };
+
   const [trigger, setTrigger] = useState(false);
   const [isAddProductPage, setIsAddProductPage] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [stores, setStores] = useState([]);
   const rowsPerPage = 10;
 
   // Fetch all products
@@ -27,17 +53,17 @@ const Product = () => {
         }
       );
       setProducts(response.data.products || []);
+      setStores(response.data.stores || []);
     } catch (err) {
       console.error("Error fetching products:", err);
     }
   };
-   // Calculate pagination values
-   const indexOfLastRow = currentPage * rowsPerPage;
-   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-   const currentProducts = products.slice(indexOfFirstRow, indexOfLastRow);
- 
-   const totalPages = Math.ceil(products.length / rowsPerPage);
+  // Calculate pagination values
+  const indexOfLastRow = currentPage * rowsPerPage;
+  const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+  const currentProducts = products.slice(indexOfFirstRow, indexOfLastRow);
 
+  const totalPages = Math.ceil(products.length / rowsPerPage);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage((prevPage) => prevPage + 1);
@@ -176,6 +202,24 @@ const Product = () => {
             </div>
           </div>
 
+          <div className="my-4">
+            <h3 className="font-bold text-lg mb-2">Stores</h3>
+            <select
+              value={selectedFilter} // To reflect the current value in the select
+              onChange={handleFilterChange}
+              className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="" key="">
+                OverAll
+              </option>
+              {stores.map((store, index) => (
+                <option key={index} value={store.location}>
+                  {store.location}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <table style={tableStyle}>
             <thead style={tableHeaderStyle}>
               <tr>
@@ -190,12 +234,10 @@ const Product = () => {
             <tbody>
               {currentProducts.map((product, index) => (
                 <tr key={product.productId}>
-                  <td style={tableCellStyle}>
-                    {indexOfFirstRow + index + 1}
-                  </td>
+                  <td style={tableCellStyle}>{indexOfFirstRow + index + 1}</td>
                   <td style={tableCellStyle}>{product.productId}</td>
                   <td style={tableCellStyle}>{product.productName}</td>
-                  <td style={tableCellStyle}>{product.totalStock}</td>
+                  <td style={tableCellStyle}>{product.totalStock || product.storeStock}</td>
                   <td style={tableCellStyle}>{product.pricePerUnit}</td>
                   <td style={tableCellStyle}>
                     <div style={{ display: "flex", justifyContent: "center" }}>

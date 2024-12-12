@@ -11,7 +11,9 @@ function Forecasting() {
   const [isDisabled, setIsDisabled] = useState(false); // To disable buttons during prediction
 
   const handleOldDataClick = async () => {
+
     navigate('/dashboard/prediction')
+
   };
 
   const handleSubmit = async (event) => {
@@ -45,14 +47,13 @@ function Forecasting() {
           responseType: "blob", // Expect the response to be a PDF file
         }
       );
-
       navigate('/dashboard/prediction')
       
-
       // Show success toast
       toast.success("Report generated successfully!", { id: "file-processing" });
     } catch (error) {
       console.error("Error uploading file:", error);
+      toast.dismiss("file-processing")
       toast.error("An error occurred while processing the forecasting data.");
     } finally {
       setIsLoading(false); // End loading
