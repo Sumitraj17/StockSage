@@ -8,8 +8,9 @@ import { Toaster } from 'react-hot-toast';
 import Product from "./pages/Products.jsx";
 import Sales from "./pages/Sales.jsx";
 import Employee from "./pages/Employee.jsx";
-import Group from "./pages/Group.jsx";
+
 import Forecasting from "./pages/forecast";
+import Prediction from "./pages/Prediction";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="product" element={<Product/>} />
           <Route path="sales" element={<Sales/>} />
-          <Route path="group" element={<Group/>} />
+          <Route path="prediction" element={<Prediction />} />
           <Route path="employee" element={<Employee/>} />
           <Route path="forecasting" element={<Forecasting/>} />
 

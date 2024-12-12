@@ -11,42 +11,7 @@ function Forecasting() {
   const [isDisabled, setIsDisabled] = useState(false); // To disable buttons during prediction
 
   const handleOldDataClick = async () => {
-    try {
-      // Start loading
-      setIsLoading(true);
-      setIsDisabled(true);
-
-      // Show loading toast
-      toast.loading("Processing your file...", { id: "file-processing" });
-
-      // If the user selects to use old data, make an Axios request to the backend
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/sales/forecasting",
-        {}, // No file data, just use old data
-        {
-          withCredentials: true, // Include credentials with the request
-          responseType: "blob", // Expect the response to be a PDF file
-        }
-      );
-
-      // Handle the download of the report as a PDF
-      const url = window.URL.createObjectURL(new Blob([response.data]), { type: 'application/pdf' });
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "forecasting_report.pdf"); // Set the file name for the download
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link); // Clean up the DOM
-
-      // Show success toast
-      toast.success("Report generated successfully!");
-    } catch (error) {
-      console.error("Error fetching old data:", error);
-      toast.error("An error occurred while fetching the forecasting data.");
-    } finally {
-      setIsLoading(false); // End loading
-      setIsDisabled(false); // Enable buttons again
-    }
+    navigate('/dashboard/prediction')
   };
 
   const handleSubmit = async (event) => {
@@ -81,14 +46,8 @@ function Forecasting() {
         }
       );
 
-      // Handle the download of the report as a PDF
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "forecasting_report.pdf"); // Set the file name for the download
-      document.body.appendChild(link);
-      link.click(); // Trigger the download
-      document.body.removeChild(link); // Clean up the DOM
+      navigate('/dashboard/prediction')
+      
 
       // Show success toast
       toast.success("Report generated successfully!", { id: "file-processing" });
@@ -148,7 +107,7 @@ function Forecasting() {
           className="bg-blue-600 text-white px-8 py-3 rounded-full text-lg hover:bg-blue-700 transition-all shadow-md flex items-center gap-2"
           disabled={isDisabled} // Disable button during prediction
         >
-          <FaArrowRight className="text-white" />
+          <FaArrowRight className="text-white "  />
           Submit
         </button>
       </form>
